@@ -2,6 +2,25 @@ import axios from 'axios';
 import { fetchUsersSuccess } from './users'
 import { between, currencyFormat } from '../../shared/utility'
 
+var usersList = [];
+window.AddCampaigns =  (campaignData)=>{
+    let users = {}
+    window.usersList.forEach((data) => { 
+        users[data.id] = data;
+    })
+    const processedData = campaignData.map((data) => {
+        let row = { ...data };
+        row.username = users[row.userId] ? users[row.userId].name : 'Unknown User';
+        row.status = between(row.startDate,row.endDate) ? 'Active':'Inactive';
+        row.formattedBudget = currencyFormat(row.Budget);
+        return row;
+    })
+    let existingData = window.reduxStore.getState().campaigns.campaignsTableViewModel;
+    window.reduxStore.dispatch( {
+        type: 'FETCH_CAMPAIGNS_SUCCESS',
+        payload: [...existingData,...processedData]
+    });
+}
 // Constants
 export const actionTypes = {
     FETCH_CAMPAIGNS_START: 'FETCH_CAMPAIGNS_START',
@@ -30,12 +49,12 @@ const fetchCampaignsStart = () => {
     };
 };
 
-const processData = function (consumerData, usersData) {
+const processData = function (campaignData, usersData) {
     let users = {}
     usersData.forEach((data) => { 
         users[data.id] = data;
     })
-    const processedData = consumerData.map((data) => {
+    const processedData = campaignData.map((data) => {
         let row = { ...data };
         row.username = users[row.userId] ? users[row.userId].name : 'Unknown User';
         row.status = between(row.startDate,row.endDate) ? 'Active':'Inactive';
@@ -52,7 +71,7 @@ export const fetchCampaigns = () => {
         Promise.all([campaigns, users]).then((data) => {
             const campaignlist = data[0].data;
             const userList = data[1].data;
-            dispatch(fetchUsersSuccess(userList));
+            window.usersList = userList;
             const result = processData(campaignlist, userList);
             dispatch(fetchCampaignsSuccess(result));
 

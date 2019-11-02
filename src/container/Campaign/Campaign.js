@@ -148,15 +148,6 @@ class Campaign extends React.PureComponent {
             }
           }}
         />
-        {/* <DataTable
-          keyField="id"
-          tableClass="table-striped"
-          width="100%"
-          headers={headers}
-          data={data}
-          noData="No records!"
-          enableCustomFilter
-        /> */}
       </div>
     );
   }
