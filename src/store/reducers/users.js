@@ -1,19 +1,11 @@
-import {actionTypes} from '../actions/campaings';
+import {actionTypes} from '../actions/users';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
     userList: [],
-    error:{}
 };
 
-const fetchUsersStart = ( state ) => {
-    return updateObject( state, { error: {} } );
-};
-
-const fetchUsersFail = ( state, action ) => {
-    return updateObject( state, { error: action.error } );
-};
-export const fetchUsersSuccess = ( state, action ) => {
+export const addUsers = ( state, action ) => {
     return updateObject( state, {
         userList: action.payload,
     } );
@@ -21,9 +13,7 @@ export const fetchUsersSuccess = ( state, action ) => {
 
 const usersReducer = ( state = initialState, action ) => {
     switch ( action.type ) {
-        case actionTypes.FETCH_USERS_START: return fetchUsersStart( state, action );
-        case actionTypes.FETCH_USERS_SUCCESS: return fetchUsersSuccess( state, action );
-        case actionTypes.FETCH_USERS_FAIL: return fetchUsersFail( state, action );
+        case actionTypes.ADD_USERS: return addUsers( state, action );
         default: return state;
     }
 };

@@ -1,3 +1,3 @@
 export {
-    fetchCampaigns,
-} from './campaings';
+    getCampaigns,
+} from './campaigns';

@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { fetchUsersSuccess } from './users'
+import { AddUsers } from './users'
 import { between, currencyFormat } from '../../shared/utility'
 
-var usersList = [];
 window.AddCampaigns =  (campaignData)=>{
     let users = {}
-    window.usersList.forEach((data) => { 
+    window.reduxStore.getState().users.usersList.forEach((data) => { 
         users[data.id] = data;
     })
     const processedData = campaignData.map((data) => {
@@ -17,35 +16,29 @@ window.AddCampaigns =  (campaignData)=>{
     })
     let existingData = window.reduxStore.getState().campaigns.campaignsTableViewModel;
     window.reduxStore.dispatch( {
-        type: 'FETCH_CAMPAIGNS_SUCCESS',
+        type: 'ADD_CAMPAIGNS',
         payload: [...existingData,...processedData]
     });
 }
+
 // Constants
 export const actionTypes = {
-    FETCH_CAMPAIGNS_START: 'FETCH_CAMPAIGNS_START',
-    FETCH_CAMPAIGNS_SUCCESS: 'FETCH_CAMPAIGNS_SUCCESS',
-    FETCH_CAMPAIGNS_FAIL: 'FETCH_CAMPAIGNS_FAIL'
+    ADD_CAMPAIGNS: 'ADD_CAMPAIGNS',
+    FETCH_CAMPAIGNS: 'FETCH_CAMPAIGNS',
 };
 
 // Action Creators
-const fetchCampaignsSuccess = (campaignsData) => {
+const fetchCampaigns = (campaignsData) => {
     return {
-        type: actionTypes.FETCH_CAMPAIGNS_SUCCESS,
+        type: actionTypes.FETCH_CAMPAIGNS,
         payload: campaignsData
     };
 };
 
-const fetchCampaignsFail = (error) => {
+const addCampaigns = (campaignsData) => {
     return {
-        type: actionTypes.FETCH_CAMPAIGNS_FAIL,
-        error: error
-    };
-};
-
-const fetchCampaignsStart = () => {
-    return {
-        type: actionTypes.FETCH_CAMPAIGNS_START
+        type: actionTypes.ADD_CAMPAIGNS,
+        payload: campaignsData
     };
 };
 
@@ -63,20 +56,19 @@ const processData = function (campaignData, usersData) {
     })
     return processedData;
 }
-export const fetchCampaigns = () => {
+export const getCampaigns = () => {
     return dispatch => {
-        dispatch(fetchCampaignsStart());
         const campaigns = axios.get('/campaigns.json')
         const users = axios.get('https://jsonplaceholder.typicode.com/users')
         Promise.all([campaigns, users]).then((data) => {
             const campaignlist = data[0].data;
             const userList = data[1].data;
-            window.usersList = userList;
             const result = processData(campaignlist, userList);
-            dispatch(fetchCampaignsSuccess(result));
-
+            dispatch(AddUsers(userList));
+            dispatch(fetchCampaigns(result));
         }).catch(err => {
-            dispatch(fetchCampaignsFail(err));
+            console.error('error:', err);
+            //show some toastr as per business requirement
         })
     };
 };
