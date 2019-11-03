@@ -7,17 +7,18 @@ const StatusCell = props => {
 		status,
 	} = props;
 	let iconClass = '';
-	if(status!=''){
+	if (status) {
 		iconClass = status.toUpperCase() === 'ACTIVE' ? 'active' : 'inactive'
 	}
 	return (<div className='campaign-status'>
-			<span className={iconClass}>{status}</span>
-		</div>
+		<span className={iconClass}></span>
+		<span>{status}</span>
+	</div>
 	);
 };
 
-StatusCell.defaultProps ={
-	status:''
+StatusCell.defaultProps = {
+	status: ''
 }
 StatusCell.propTypes = {
 	status: PropTypes.string,

@@ -1,15 +1,17 @@
 .campaign-status .active{
-        height: 12px;
-        width: 12px;
+        height: 9px;
+        width: 9px;
         background-color: green;
         border-radius: 50%;
         display: inline-block;
+        margin-right:10px;
 }
 
 .campaign-status .inactive{
-    height: 12px;
-    width: 12px;
+    height: 9px;
+    width: 9px;
     background-color: red;
     border-radius: 50%;
     display: inline-block;
+    margin-right:10px;
 }

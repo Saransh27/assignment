@@ -18,10 +18,10 @@ class Search extends React.PureComponent {
             <div className="main row">
                 <div className="form-group has-search">
                     <span className="fa fa-search form-control-feedback"></span>
-                    <input type="text" className="form-control" placeholder="Search" 
-                    value={this.state.searchText} onChange={(e)=>this.searchHandler(e)} />
+                    <input type="text" className="form-control" placeholder="Search By Campaign Name"
+                        value={this.state.searchText} onChange={(e) => this.searchHandler(e)} />
                 </div>
-                </div>
+            </div>
         );
     }
 }

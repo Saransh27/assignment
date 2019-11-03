@@ -25,6 +25,9 @@ class App extends React.PureComponent {
 
 	componentDidMount() {
 		this.props.onGetCampaigns();
+		window.AddCampaigns = (campdata) => {
+			this.props.onaddCampaigns(campdata);
+		}
 	}
 
 	componentWillReceiveProps(nextprops) {
@@ -105,17 +108,19 @@ class App extends React.PureComponent {
 
 const mapStateToProps = state => {
 	return {
-	  campaignsData: state.campaigns.campaignsTableViewModel,
-	  loading: state.campaigns.loading,
+		campaignsData: state.campaigns.campaignsTableViewModel,
+		usersList: state.users.usersList,
+		loading: state.campaigns.loading,
 	};
-  };
-  
-  const mapDispatchToProps = dispatch => {
+};
+
+const mapDispatchToProps = dispatch => {
 	return {
-	  onGetCampaigns: () => dispatch(actions.getCampaigns())
+		onGetCampaigns: () => dispatch(actions.getCampaigns()),
+		onaddCampaigns: (data) => dispatch(actions.addCampaigns(data))
 	};
-  };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(App);
-  
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
 

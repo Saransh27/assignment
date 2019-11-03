@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import PropTypes from 'prop-types';
+import StatusCell from '../../component/Campaigns/Status/StatusCell'
 
 const Campaign = (props) => {
   const { campaignsData, headers } = props;
@@ -43,7 +44,8 @@ Campaign.defaultProps = {
     },
     {
       Header: 'Status',
-      accessor: 'status'
+      accessor: 'status',
+      Cell: row => <StatusCell status={row.original.status} />
     },
     {
       Header: 'Budget',
