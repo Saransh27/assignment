@@ -1,4 +1,1 @@
-export {
-    getCampaigns,
-    addCampaigns
-} from './campaigns';
+export { getCampaigns, addCampaigns } from './campaigns';

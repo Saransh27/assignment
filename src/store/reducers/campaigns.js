@@ -19,9 +19,12 @@ const AddCampaigns = (state, action) => {
 
 const campaignsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_CAMPAIGNS: return fetchCampaigns(state, action);
-        case actionTypes.ADD_CAMPAIGNS: return AddCampaigns(state, action);
-        default: return state;
+        case actionTypes.FETCH_CAMPAIGNS:
+            return fetchCampaigns(state, action);
+        case actionTypes.ADD_CAMPAIGNS:
+            return AddCampaigns(state, action);
+        default:
+            return state;
     }
 };
 

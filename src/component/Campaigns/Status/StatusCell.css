@@ -8,10 +8,10 @@
 }
 
 .campaign-status .inactive{
-    height: 9px;
-    width: 9px;
-    background-color: red;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right:10px;
+        height: 9px;
+        width: 9px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:10px;
 }
