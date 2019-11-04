@@ -14,6 +14,7 @@ class App extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            searchText: '',
             startDate: '',
             endDate: '',
             data: props.campaignsData,
@@ -67,7 +68,7 @@ class App extends React.PureComponent {
                 startDate,
             });
         } else {
-            this.setState({ startDate });
+            this.setState({ startDate, searchText: '', data: campaignsData });
         }
     }
 
@@ -80,24 +81,30 @@ class App extends React.PureComponent {
                 endDate,
             });
         } else {
-            this.setState({ endDate });
+            this.setState({ endDate, searchText: '', data: campaignsData });
         }
     }
 
-    search(val) {
+    search(keyword) {
         const { campaignsData } = this.props;
-        if (!val) {
-            this.setState({ data: campaignsData });
+        if (!keyword) {
+            this.setState({ data: campaignsData, searchText: '' });
         } else {
             const filteredData = campaignsData.filter(
-                data => data.name.indexOf(val) === 0
+                data =>
+                    data.name.toUpperCase().indexOf(keyword.toUpperCase()) === 0
             );
-            this.setState({ data: filteredData });
+            this.setState({
+                data: filteredData,
+                startDate: '',
+                endDate: '',
+                searchText: keyword,
+            });
         }
     }
 
     render() {
-        const { startDate, endDate, data } = this.state;
+        const { startDate, endDate, data, searchText } = this.state;
         return (
             <div className="container">
                 <div style={{ margin: '10px 0px 10px 0px' }} className="row">
@@ -122,7 +129,7 @@ class App extends React.PureComponent {
                         placeholderText="End Date"
                     />
                 </div>
-                <Search onSearch={this.search} />
+                <Search onSearch={this.search} text={searchText} />
                 <Campaigns campaignsData={data} />
             </div>
         );

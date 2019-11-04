@@ -13,7 +13,6 @@
   
   .has-search .form-control-feedback {
     position: absolute;
-    z-index: 2;
     display: block;
     width: 3.375rem;
     height: 2.375rem;
