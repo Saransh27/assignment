@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AddUsers } from './users';
-import { between, currencyFormat } from '../../shared/utility';
+import { between, currencyFormat, sleeper } from '../../shared/utility';
 
 // Constants
 export const actionTypes = {
@@ -60,13 +60,14 @@ export const getCampaigns = () => {
     return dispatch => {
         const campaigns = axios.get('/campaigns.json');
         const users = axios.get('https://jsonplaceholder.typicode.com/users');
-        Promise.all([campaigns, users])
+        return Promise.all([campaigns, users])
             .then(data => {
                 const campaignlist = data[0].data;
                 const userList = data[1].data;
                 const result = processData(campaignlist, userList);
                 dispatch(AddUsers(userList));
                 dispatch(fetchCampaigns(result));
+                return sleeper(2000)(result); // just add some delay in-order to show loader else loader disappears quickly
             })
             .catch(err => {
                 console.error('error:', err);

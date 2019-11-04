@@ -33,3 +33,9 @@ export function currencyFormat(number) {
             : Math.abs(Number(number)).toFixed(1)
     } USD`;
 }
+
+export function sleeper(ms) {
+    return x => {
+        return new Promise(resolve => setTimeout(() => resolve(x), ms));
+    };
+}

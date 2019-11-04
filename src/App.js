@@ -8,8 +8,10 @@ import * as actions from './store/actions/index';
 import Search from './component/Search/Search';
 import Campaigns from './container/Campaign/Campaign';
 import { between } from './shared/utility';
+import WithSpinner from './component/Spinner/WithSpinner';
 import 'react-table/react-table.css';
 
+const CampaignWithLoading = WithSpinner(Campaigns);
 class App extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -18,6 +20,7 @@ class App extends React.PureComponent {
             startDate: '',
             endDate: '',
             data: props.campaignsData,
+            isLoading: false,
         };
         this.setStartDate = this.setStartDate.bind(this);
         this.setEndDate = this.setEndDate.bind(this);
@@ -26,7 +29,10 @@ class App extends React.PureComponent {
 
     componentDidMount() {
         const { onGetCampaigns, onaddCampaigns } = this.props;
-        onGetCampaigns();
+        this.setState({ isLoading: true });
+        onGetCampaigns().then(() => {
+            this.setState({ isLoading: false });
+        });
         window.AddCampaigns = campdata => {
             onaddCampaigns(campdata);
         };
@@ -104,7 +110,7 @@ class App extends React.PureComponent {
     }
 
     render() {
-        const { startDate, endDate, data, searchText } = this.state;
+        const { startDate, endDate, data, searchText, isLoading } = this.state;
         return (
             <div className="container">
                 <div style={{ margin: '10px 0px 10px 0px' }} className="row">
@@ -130,7 +136,10 @@ class App extends React.PureComponent {
                     />
                 </div>
                 <Search onSearch={this.search} text={searchText} />
-                <Campaigns campaignsData={data} />
+                <CampaignWithLoading
+                    campaignsData={data}
+                    isLoading={isLoading}
+                />
             </div>
         );
     }
